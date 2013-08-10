@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('BookCrossingAppWebApp')
+angular.module('BookCrossingAppWeb')
   .controller('MainCtrl', function ($scope) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
