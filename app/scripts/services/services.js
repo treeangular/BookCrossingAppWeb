@@ -40,7 +40,7 @@ angular.module('dataServices', [])
                      //Get the Actions related to this books ordered chronologically
                      var qBook = new Parse.Query(Book);
 
-                     qBook.withinKilometers("releasedAt", geoPoint, KmToLookAroundUserPositionForMap)
+                     //qBook.withinKilometers("releasedAt", geoPoint, KmToLookAroundUserPositionForMap)
 
                      //Only Released actions of others books. (Also Lost ones?)
                      var bookStatus = new BookStatus();
