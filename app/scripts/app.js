@@ -1,6 +1,6 @@
 'use strict';
 
-var BookCrossingAppWeb = angular.module('BookCrossingAppWeb', ['dataServices', 'localization', 'ui.map']);
+var BookCrossingAppWeb = angular.module('BookCrossingAppWeb', ['dataServices', 'localization', 'ui.map', ]);
 
 BookCrossingAppWeb.config(['$routeProvider','$httpProvider', function ($routeProvider, $httpProvider) {
     $routeProvider
@@ -9,7 +9,7 @@ BookCrossingAppWeb.config(['$routeProvider','$httpProvider', function ($routePro
             controller: 'MainCtrl'
         })
         .otherwise({
-            redirectTo: '/'
+            redirectTo: '/Main'
         });
 
       loadParse();
