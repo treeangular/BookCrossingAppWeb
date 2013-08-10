@@ -39,9 +39,14 @@ BookCrossingAppWeb.factory('geolocationService', function ($rootScope, $http, $q
         }
 
         return {
-            getCurrentPosition: function getCurrentPosition(onSuccess, onError, options) {
+            getCurrentPosition: function getCurrentPosition(callback) {
 
+                var geoPoint ={
 
+                    latitude: 41.000,
+                    longitude: 35.0000
+                };
+                callback(geoPoint)
 
             },
             getCityFromGeopoint: getCityFromGeopoint

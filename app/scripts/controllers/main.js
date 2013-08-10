@@ -3,9 +3,9 @@
 angular.module('BookCrossingAppWeb')
   .controller('MainCtrl', function ($scope, geolocationService, dataService) {
         var geoPoint;
-        var myPositionIcon = "styles/img/myPosition.gif";
-        var bookIcon = "styles/img/book.png";
-        var zobcIcon = "styles/img/zobc.png";
+        var myPositionIcon = "../styles/img/myPosition.gif";
+        var bookIcon = "../styles/img/book.png";
+        var zobcIcon = "../styles/img/zobc.png";
 
         $scope.myMarkers = [];
         $scope.cluster = {
@@ -23,21 +23,21 @@ angular.module('BookCrossingAppWeb')
 
 
         var style = [{
-            url: 'styles/img/books.png',
+            url: '../styles/img/books.png',
             height: 38,
             width: 40,
             opt_anchor: [16, 0],
             opt_textColor: '#ffffff',
             opt_textSize: 10
         }, {
-            url: 'styles/img/books.png',
+            url: '../styles/img/books.png',
             height: 38,
             width: 40,
             opt_anchor: [24, 0],
             opt_textColor: '#ffffff',
             opt_textSize: 11
         }, {
-            url: 'styles/img/books.png',
+            url: '../styles/img/books.png',
             height: 38,
             width: 40,
             opt_textColor: '#ffffff',
@@ -65,94 +65,6 @@ angular.module('BookCrossingAppWeb')
             //filter returns an array, and we just want the matching item
             return obj[0];
         }
-
-        $scope.openMarkerInfo = function(marker) {
-            if (marker.title == "Me") return;
-            $scope.book = getId($scope.books, marker.title);
-            $scope.currentMarker = marker;
-            $scope.myInfoWindow.open($scope.myMap, marker);
-        };
-
-        $scope.setMarkerPosition = function(marker, lat, lng) {
-            marker.setPosition(new google.maps.LatLng(lat, lng));
-        };
-
-        geolocationService.getCurrentPosition(function (position) {
-            geoPoint = {latitude:position.coords.latitude, longitude:position.coords.longitude};
-            if (geoPoint!=null){
-
-                var marker = new google.maps.Marker({
-                    map: $scope.myMap,
-                    position: new google.maps.LatLng(geoPoint.latitude, geoPoint.longitude),
-                    title: "Me",
-                    icon:myPositionIcon
-                });
-
-                //$scope.myMarkers.push(marker);
-
-                $scope.myMap.setCenter(new google.maps.LatLng(geoPoint.latitude, geoPoint.longitude));
-                $scope.getActPage();
-
-            }
-        });
-
-        var selectedmarkers = [];
-        var currentGroupPage = 0;
-
-        $scope.nextBooks = function () {
-            currentGroupPage++;
-            var marker = selectedmarkers[currentGroupPage];
-            $scope.bookgr1 = getId($scope.books, marker.title);
-            currentGroupPage++;
-            marker = selectedmarkers[currentGroupPage];
-            $scope.bookgr2 = getId($scope.books, marker.title);
-            if (selectedmarkers.length > currentGroupPage+1){
-                currentGroupPage++;
-                marker = selectedmarkers[currentGroupPage];
-                $scope.bookgr3 = getId($scope.books, marker.title);
-            }
-            else{
-                $scope.bookgr3 = null;
-            }
-            if (selectedmarkers.length > currentGroupPage+1){
-                $scope.IsNextGroupPage = true;
-            }
-            else{
-                $scope.IsNextGroupPage = false;
-            }
-
-        }
-
-        function multiChoice(clickedCluster) {
-            if (clickedCluster.getMarkers().length > 1)
-            {
-                currentGroupPage = 1;
-                selectedmarkers = clickedCluster.getMarkers();
-                var marker = selectedmarkers[0];
-                $scope.bookgr1 = getId($scope.books, marker.title);
-                marker = selectedmarkers[1];
-                $scope.bookgr2 = getId($scope.books, marker.title);
-
-                if (selectedmarkers.length > currentGroupPage+1){
-                    currentGroupPage = 2;
-                    marker = selectedmarkers[2];
-                    $scope.bookgr3 = getId($scope.books, marker.title);
-                }
-                else{
-                    $scope.bookgr3 = null;
-                }
-                if (selectedmarkers.length > currentGroupPage+1){
-                    $scope.IsNextGroupPage = true;
-                }
-                else{
-                    $scope.IsNextGroupPage = false;
-                }
-
-                $scope.myInfoWindowList.open($scope.myMap, marker);
-                return false;
-            }
-            return true;
-        };
 
         $scope.getActPage = function () {
             dataService.getBooksForMap(geoPoint, function (isSuccess, results) {
@@ -215,5 +127,97 @@ angular.module('BookCrossingAppWeb')
                 });
             });
         };
+
+        $scope.openMarkerInfo = function(marker) {
+            if (marker.title == "Me") return;
+            $scope.book = getId($scope.books, marker.title);
+            $scope.currentMarker = marker;
+            $scope.myInfoWindow.open($scope.myMap, marker);
+        };
+
+        $scope.setMarkerPosition = function(marker, lat, lng) {
+            marker.setPosition(new google.maps.LatLng(lat, lng));
+        };
+
+
+
+        var selectedmarkers = [];
+        var currentGroupPage = 0;
+
+        $scope.nextBooks = function () {
+            currentGroupPage++;
+            var marker = selectedmarkers[currentGroupPage];
+            $scope.bookgr1 = getId($scope.books, marker.title);
+            currentGroupPage++;
+            marker = selectedmarkers[currentGroupPage];
+            $scope.bookgr2 = getId($scope.books, marker.title);
+            if (selectedmarkers.length > currentGroupPage+1){
+                currentGroupPage++;
+                marker = selectedmarkers[currentGroupPage];
+                $scope.bookgr3 = getId($scope.books, marker.title);
+            }
+            else{
+                $scope.bookgr3 = null;
+            }
+            if (selectedmarkers.length > currentGroupPage+1){
+                $scope.IsNextGroupPage = true;
+            }
+            else{
+                $scope.IsNextGroupPage = false;
+            }
+
+        }
+
+        function multiChoice(clickedCluster) {
+            if (clickedCluster.getMarkers().length > 1)
+            {
+                currentGroupPage = 1;
+                selectedmarkers = clickedCluster.getMarkers();
+                var marker = selectedmarkers[0];
+                $scope.bookgr1 = getId($scope.books, marker.title);
+                marker = selectedmarkers[1];
+                $scope.bookgr2 = getId($scope.books, marker.title);
+
+                if (selectedmarkers.length > currentGroupPage+1){
+                    currentGroupPage = 2;
+                    marker = selectedmarkers[2];
+                    $scope.bookgr3 = getId($scope.books, marker.title);
+                }
+                else{
+                    $scope.bookgr3 = null;
+                }
+                if (selectedmarkers.length > currentGroupPage+1){
+                    $scope.IsNextGroupPage = true;
+                }
+                else{
+                    $scope.IsNextGroupPage = false;
+                }
+
+                $scope.myInfoWindowList.open($scope.myMap, marker);
+                return false;
+            }
+            return true;
+        };
+
+        geolocationService.getCurrentPosition(function (position) {
+            geoPoint = {latitude:position.latitude, longitude:position.longitude};
+            if (geoPoint!=null){
+
+                var marker = new google.maps.Marker({
+                    map: $scope.myMap,
+                    position: new google.maps.LatLng(geoPoint.latitude, geoPoint.longitude),
+                    title: "Me",
+                    icon:myPositionIcon
+                });
+
+                //$scope.myMarkers.push(marker);b
+
+                $scope.myMap.setCenter(new google.maps.LatLng(geoPoint.latitude, geoPoint.longitude));
+                $scope.getActPage();
+
+            }
+        });
+
+
 
     });
